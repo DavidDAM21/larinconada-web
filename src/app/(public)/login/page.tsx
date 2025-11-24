@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/Button';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
+import { Card, CardContent } from '@/components/ui/Card';
 import { translateSupabaseError } from '@/lib/utils/translations';
 
 export default function LoginPage() {
@@ -40,10 +40,11 @@ export default function LoginPage() {
                 text: '¡Email enviado! Revisa tu bandeja de entrada para restablecer tu contraseña.'
             });
             setShowPasswordReset(false);
-        } catch (error: any) {
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'Error al enviar el email';
             setMessage({
                 type: 'error',
-                text: translateSupabaseError(error.message || 'Error al enviar el email')
+                text: translateSupabaseError(errorMessage)
             });
         } finally {
             setResetLoading(false);
@@ -94,10 +95,11 @@ export default function LoginPage() {
                     setPassword('');
                 }, 4000);
             }
-        } catch (error: any) {
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'Ha ocurrido un error';
             setMessage({
                 type: 'error',
-                text: translateSupabaseError(error.message || 'Ha ocurrido un error')
+                text: translateSupabaseError(errorMessage)
             });
         } finally {
             setLoading(false);
