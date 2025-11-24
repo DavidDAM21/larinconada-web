@@ -16,6 +16,9 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "La Rinconada - Asociación de Socios",
   description: "Únete a nuestra comunidad y accede a beneficios exclusivos",
+  verification: {
+    google: "9r7zxIqGyud7f9Ljmar_f7xYuWshZ6ZYYDEP0sF_trs",
+  },
 };
 
 export default function RootLayout({
