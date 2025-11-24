@@ -2,6 +2,9 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { Button } from '@/components/ui/Button';
+import { Database } from '@/lib/types/database.types';
+
+type BlogPost = Database['public']['Tables']['blog_posts']['Row'];
 
 interface BlogPostPageProps {
     params: Promise<{
@@ -13,11 +16,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     const { slug } = await params;
     const supabase = await createClient();
 
-    const { data: post, error } = await supabase
+    const { data, error } = await supabase
         .from('blog_posts')
         .select('*')
         .eq('slug', slug)
         .single();
+
+    const post = data as BlogPost | null;
 
     if (error || !post) {
         notFound();
