@@ -1,7 +1,24 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
+// MAINTENANCE MODE: Set to true to show maintenance page on ALL routes
+const MAINTENANCE_MODE = true;
+
 export async function middleware(request: NextRequest) {
+    // If maintenance mode is active, redirect all requests to maintenance page
+    if (MAINTENANCE_MODE) {
+        // Allow access to static files and the maintenance endpoint itself
+        if (
+            !request.nextUrl.pathname.startsWith('/_next') &&
+            !request.nextUrl.pathname.startsWith('/api') &&
+            request.nextUrl.pathname !== '/maintenance'
+        ) {
+            const url = request.nextUrl.clone();
+            url.pathname = '/maintenance';
+            return NextResponse.rewrite(url);
+        }
+    }
+
     let supabaseResponse = NextResponse.next({
         request,
     });
