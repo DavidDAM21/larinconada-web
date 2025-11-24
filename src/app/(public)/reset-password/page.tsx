@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/Button';
@@ -52,10 +52,11 @@ export default function ResetPasswordPage() {
             setTimeout(() => {
                 router.push('/login');
             }, 2000);
-        } catch (error: any) {
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'Error al actualizar la contraseña';
             setMessage({
                 type: 'error',
-                text: translateSupabaseError(error.message || 'Error al actualizar la contraseña')
+                text: translateSupabaseError(errorMessage)
             });
         } finally {
             setLoading(false);
