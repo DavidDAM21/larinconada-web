@@ -21,7 +21,7 @@ export async function GET() {
         .single();
 
     let creationResult = null;
-    let envCheck = {
+    const envCheck = {
         hasUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
         hasServiceKey: !!process.env.SUPABASE_SERVICE_ROLE_KEY
     };
@@ -50,8 +50,9 @@ export async function GET() {
                 .single();
 
             creationResult = { success: !createError, newProfile, createError };
-        } catch (e: any) {
-            creationResult = { success: false, error: e.message };
+        } catch (e: unknown) {
+            const errorMessage = e instanceof Error ? e.message : 'Unknown error';
+            creationResult = { success: false, error: errorMessage };
         }
     }
 
