@@ -4,6 +4,9 @@ import { redirect } from 'next/navigation';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
 import { UpgradeButton } from './UpgradeButton';
 import { LogoutButton } from './LogoutButton';
+import { Database } from '@/lib/types/database.types';
+
+type Profile = Database['public']['Tables']['profiles']['Row'];
 
 export const dynamic = 'force-dynamic';
 
@@ -24,11 +27,14 @@ export default async function DashboardPage({
     }
 
     // Fetch user profile
-    let { data: profile } = await supabase
+    let profile: Profile | null = null;
+    const { data: profileData } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', user.id)
         .single();
+
+    profile = profileData;
 
     // Fallback: If profile is missing (RLS issue?), try fetching with Admin Client
     if (!profile) {
