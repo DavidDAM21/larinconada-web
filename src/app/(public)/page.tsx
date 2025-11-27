@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/Button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
 
 // MAINTENANCE MODE: Change to true to activate maintenance page
-const MAINTENANCE_MODE = true;
+const MAINTENANCE_MODE = false;
 
 export default function HomePage() {
     // Show maintenance page if enabled

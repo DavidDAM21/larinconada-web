@@ -2,7 +2,7 @@ import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
 // MAINTENANCE MODE: Set to true to show maintenance page on ALL routes
-const MAINTENANCE_MODE = true;
+const MAINTENANCE_MODE = false;
 
 export async function middleware(request: NextRequest) {
     // If maintenance mode is active, redirect all requests to maintenance page
